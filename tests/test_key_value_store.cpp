@@ -6,11 +6,11 @@ int main()
 {
     KeyValueStore store;
 
-    assert(store.set("name", "Alice"));
+    assert(store.set("name", "Kanchan"));
 
     const auto value = store.get("name");
     assert(value.has_value());
-    assert(value.value() == "Alice");
+    assert(value.value() == "Kanchan");
 
     assert(store.exists("name"));
     assert(store.remove("name"));
