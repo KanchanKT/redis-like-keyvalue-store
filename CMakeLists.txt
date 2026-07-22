@@ -10,8 +10,19 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 
 include_directories(include)
 
+enable_testing()
+
 add_executable(redis_server
     src/main.cpp
     src/key_value_store.cpp
     src/command_parser.cpp
 )
+
+add_executable(test_key_value_store
+    tests/test_key_value_store.cpp
+    src/key_value_store.cpp
+)
+
+target_include_directories(test_key_value_store PRIVATE include)
+
+add_test(NAME key_value_store_tests COMMAND test_key_value_store)
