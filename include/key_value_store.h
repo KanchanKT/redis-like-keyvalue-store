@@ -4,9 +4,13 @@
 #include <string>
 #include <unordered_map>
 
+#include "wal.h"
+
 class KeyValueStore
 {
 public:
+    explicit KeyValueStore(std::string wal_path = "wal.log");
+
     bool set(const std::string& key, const std::string& value);
 
     std::optional<std::string> get(const std::string& key) const;
@@ -21,4 +25,5 @@ public:
 
 private:
     std::unordered_map<std::string, std::string> database_;
+    WriteAheadLog wal_;
 };

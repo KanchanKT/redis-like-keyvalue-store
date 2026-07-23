@@ -16,11 +16,14 @@ add_executable(redis_server
     src/main.cpp
     src/key_value_store.cpp
     src/command_parser.cpp
+    src/wal.cpp
 )
 
 add_executable(test_key_value_store
     tests/test_key_value_store.cpp
     src/key_value_store.cpp
+    src/command_parser.cpp
+    src/wal.cpp
 )
 
 target_include_directories(test_key_value_store PRIVATE include)

@@ -8,7 +8,7 @@
 int main()
 {
     CommandParser parser;
-    KeyValueStore store;
+    KeyValueStore store("wal.log");
 
     std::string line;
 
@@ -44,6 +44,41 @@ int main()
                 }
                 break;
             }
+
+            case CommandType::DELETE:
+                if (store.remove(command.key))
+                {
+                    std::cout << "DELETE command\n";
+                    std::cout << "Key : " << command.key << '\n';
+                    std::cout << "Status : deleted\n";
+                }
+                else
+                {
+                    std::cout << "DELETE command\n";
+                    std::cout << "Key : " << command.key << '\n';
+                    std::cout << "Status : not found\n";
+                }
+                break;
+
+            case CommandType::EXISTS:
+                std::cout << "EXISTS command\n";
+                std::cout << "Key : " << command.key << '\n';
+                std::cout << "Status : " << (store.exists(command.key) ? "true" : "false") << '\n';
+                break;
+
+            case CommandType::SIZE:
+                std::cout << "SIZE command\n";
+                std::cout << "Count : " << store.size() << '\n';
+                break;
+
+            case CommandType::CLEAR:
+                store.clear();
+                std::cout << "CLEAR command\n";
+                break;
+
+            case CommandType::HELP:
+                std::cout << "Supported commands: SET, GET, DELETE, EXISTS, SIZE, CLEAR, HELP, EXIT\n";
+                break;
 
             case CommandType::EXIT:
                 return 0;
