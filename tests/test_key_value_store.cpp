@@ -28,6 +28,7 @@ int main()
     {
         KeyValueStore persistent_store(wal_path.string());
         assert(persistent_store.set("name", "Kanchan"));
+        assert(persistent_store.set("greeting", "hello world"));
     }
 
     {
@@ -35,6 +36,10 @@ int main()
         const auto recovered_value = recovered_store.get("name");
         assert(recovered_value.has_value());
         assert(recovered_value.value() == "Kanchan");
+
+        const auto recovered_greeting = recovered_store.get("greeting");
+        assert(recovered_greeting.has_value());
+        assert(recovered_greeting.value() == "hello world");
     }
 
     std::filesystem::remove(wal_path);
