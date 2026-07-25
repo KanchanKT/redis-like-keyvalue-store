@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <functional>
+#include <mutex>
 #include <string>
 
 class WriteAheadLog
@@ -38,4 +39,5 @@ private:
 
     int fd_;
     std::string file_path_;
+    mutable std::mutex mutex_;
 };

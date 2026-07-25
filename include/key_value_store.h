@@ -1,6 +1,7 @@
 #pragma once
 
 #include <optional>
+#include <shared_mutex>
 #include <string>
 #include <unordered_map>
 
@@ -24,6 +25,7 @@ public:
     void clear();
 
 private:
+    mutable std::shared_mutex mutex_;
     std::unordered_map<std::string, std::string> database_;
     WriteAheadLog wal_;
 };

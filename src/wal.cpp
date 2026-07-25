@@ -131,6 +131,8 @@ bool WriteAheadLog::append_record(RecordType type,
                                    const std::string& key,
                                    const std::string& value)
 {
+    std::lock_guard<std::mutex> lock(mutex_);
+
     if (fd_ < 0 && !open_file())
     {
         return false;
