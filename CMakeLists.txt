@@ -20,6 +20,11 @@ add_executable(redis_server
     src/command_parser.cpp
     src/wal.cpp
     src/snapshot.cpp
+    src/consistent_hash.cpp
+    src/cluster_node.cpp
+    src/cluster_state.cpp
+    src/replication.cpp
+    src/failure_detector.cpp
 )
 
 add_executable(test_key_value_store
@@ -28,8 +33,25 @@ add_executable(test_key_value_store
     src/command_parser.cpp
     src/wal.cpp
     src/snapshot.cpp
+    src/consistent_hash.cpp
+    src/cluster_node.cpp
+    src/cluster_state.cpp
+    src/replication.cpp
+    src/failure_detector.cpp
 )
 
 target_include_directories(test_key_value_store PRIVATE include)
 
+add_executable(test_cluster
+    tests/test_cluster.cpp
+    src/consistent_hash.cpp
+    src/cluster_node.cpp
+    src/cluster_state.cpp
+    src/replication.cpp
+    src/failure_detector.cpp
+)
+
+target_include_directories(test_cluster PRIVATE include)
+
 add_test(NAME key_value_store_tests COMMAND test_key_value_store)
+add_test(NAME cluster_tests COMMAND test_cluster)
