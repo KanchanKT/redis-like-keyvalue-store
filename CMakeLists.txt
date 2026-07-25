@@ -14,6 +14,8 @@ enable_testing()
 
 add_executable(redis_server
     src/main.cpp
+    src/network_server.cpp
+    src/command_handler.cpp
     src/key_value_store.cpp
     src/command_parser.cpp
     src/wal.cpp
