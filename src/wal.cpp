@@ -245,3 +245,21 @@ bool WriteAheadLog::read_u32(int fd, std::uint32_t& value)
     value = ntohl(network_value);
     return true;
 }
+
+bool WriteAheadLog::truncate()
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (fd_ >= 0)
+    {
+        ::close(fd_);
+        fd_ = -1;
+    }
+
+    if (::truncate(file_path_.c_str(), 0) < 0)
+    {
+        return false;
+    }
+
+    return open_file();
+}

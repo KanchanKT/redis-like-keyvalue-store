@@ -2,9 +2,17 @@
 
 #include <mutex>
 
-KeyValueStore::KeyValueStore(std::string wal_path)
+KeyValueStore::KeyValueStore(std::string wal_path, std::string snapshot_path)
     : wal_(std::move(wal_path))
+    , snapshot_(std::move(snapshot_path))
 {
+    // First, try to load from snapshot
+    if (snapshot_.exists())
+    {
+        snapshot_.load(database_);
+    }
+
+    // Then replay WAL to get all changes since the snapshot
     wal_.replay(
         [this](const std::string& key, const std::string& value)
         {
@@ -87,4 +95,18 @@ void KeyValueStore::clear()
 
     std::unique_lock lock(mutex_);
     database_.clear();
+}
+
+bool KeyValueStore::create_snapshot()
+{
+    std::shared_lock lock(mutex_);
+
+    if (!snapshot_.save(database_))
+    {
+        return false;
+    }
+
+    // After snapshot, we can safely discard old WAL entries
+    lock.unlock();
+    return wal_.truncate();
 }

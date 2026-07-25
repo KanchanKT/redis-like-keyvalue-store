@@ -19,6 +19,8 @@ public:
                 const std::function<void(const std::string&)>& on_delete,
                 const std::function<void()>& on_clear);
 
+    bool truncate();
+
 private:
     enum class RecordType : std::uint8_t
     {

@@ -19,6 +19,7 @@ add_executable(redis_server
     src/key_value_store.cpp
     src/command_parser.cpp
     src/wal.cpp
+    src/snapshot.cpp
 )
 
 add_executable(test_key_value_store
@@ -26,6 +27,7 @@ add_executable(test_key_value_store
     src/key_value_store.cpp
     src/command_parser.cpp
     src/wal.cpp
+    src/snapshot.cpp
 )
 
 target_include_directories(test_key_value_store PRIVATE include)
